@@ -1,84 +1,83 @@
 # Royal WordPress Emergency Recovery
 
-### A temporary emergency account recovery utility for WordPress
+**A lightweight, temporary WordPress account recovery utility by Royal Technologies.**
 
-Developed and branded by **Royal Technologies**.
+[![WordPress](https://img.shields.io/badge/WordPress-Compatible-6%2B-21759B?logo=wordpress&logoColor=white)](https://wordpress.org/)
+[![PHP](https://img.shields.io/badge/PHP-7.4%2B-777BB4?logo=php&logoColor=white)](https://www.php.net/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-Website:  
-https://www.royaltechbd.com/
+**Developed by Royal Technologies**
 
----
-
-## About Royal Technologies
-
-Royal Technologies is an IT company providing services including:
-
-- Web Design
-- Web Development
-- WordPress Development
-- Web Hosting
-- Domain Registration
-- SEO
-- IT Consulting
-- Software Development
-- Remote and Technical Support
-
-Learn more:
-
-https://www.royaltechbd.com/
+Website: https://www.royaltechbd.com/
 
 ---
 
-# What is Royal WordPress Emergency Recovery?
+## Overview
 
-Royal WordPress Emergency Recovery is a small, temporary PHP utility designed for situations where you have legitimate filesystem or FTP access to a WordPress website but cannot access the WordPress administration dashboard.
+**Royal WordPress Emergency Recovery** is a small, temporary PHP utility designed to help authorized website administrators recover access to a WordPress installation when normal WordPress login access is unavailable but FTP, SFTP, hosting file manager, or server filesystem access is available.
 
-It loads the existing WordPress installation and provides a controlled method for recovering an administrator account.
+The utility works by loading the existing WordPress installation through `wp-load.php` and performing a controlled user recovery operation.
 
-The tool does not require installing a WordPress plugin.
+It does not require:
+
+- WordPress Dashboard access
+- Installing a WordPress plugin
+- phpMyAdmin
+- Direct database editing
+
+The script is designed for **temporary emergency use** and should be deleted immediately after the recovery process is complete.
+
+---
+
+## Important Security Notice
+
+> **This is an emergency recovery utility. Do not leave it on a production website.**
+
+The script can change a WordPress user's password and assign the Administrator role, or create a new Administrator account.
+
+Anyone who obtains the valid recovery token and can access the script URL may be able to perform the recovery operation.
+
+Therefore:
+
+1. Use it only on websites you own or are authorized to administer.
+2. Use a unique recovery token for every recovery.
+3. Never publish a real recovery token.
+4. Never publish a real password.
+5. Never commit production credentials to GitHub.
+6. Delete `royalrecover.php` immediately after use.
+7. Verify manually that the file has actually been removed.
 
 ---
 
 # Features
 
-- Email-first account lookup
-- Username fallback
-- Existing user password recovery
-- Administrator role assignment
-- New Administrator account creation
-- Token-protected recovery URL
-- No database editing required
-- No WordPress plugin installation required
-- Lightweight PHP script
-- Branded Royal Technologies interface
-- Attempts automatic self-deletion after execution
-- No credentials required in the URL except the recovery token
+## Account Recovery
 
----
+The script can recover an existing WordPress account by changing its password.
 
-# Recovery Logic
+## Email-First Lookup
 
-The script follows this exact order:
+The email address is checked first.
+
+If a matching WordPress user exists, that account is recovered.
+
+## Username Fallback
+
+If no user is found using the email address, the script checks the configured username.
+
+## Administrator Role
+
+The recovered user is assigned the WordPress `administrator` role.
+
+## New Administrator Creation
+
+If neither the email nor username exists, the script can create a new WordPress Administrator account.
+
+## Token Protection
+
+The recovery URL requires a secret token.
+
+Example:
 
 ```text
-Email
-  |
-  |-- User found
-  |      |
-  |      --> Change password
-  |      --> Assign Administrator role
-  |
-  |-- User not found
-         |
-         v
-       Username
-         |
-         |-- User found
-         |      |
-         |      --> Change password
-         |      --> Assign Administrator role
-         |
-         |-- User not found
-                |
-                v
-          Create new Administrator
+https://example.com/royalrecover.php?token=YOUR_SECRET_TOKEN
