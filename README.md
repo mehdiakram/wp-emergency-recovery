@@ -1,40 +1,84 @@
 # Royal WordPress Emergency Recovery
 
-A temporary PHP-based emergency recovery tool for WordPress websites.
+### A temporary emergency account recovery utility for WordPress
 
-It can be useful when you have FTP or file access to a WordPress installation but cannot access the WordPress dashboard.
+Developed and branded by **Royal Technologies**.
 
-## Features
+Website:  
+https://www.royaltechbd.com/
 
-- Email-first user lookup
+---
+
+## About Royal Technologies
+
+Royal Technologies is an IT company providing services including:
+
+- Web Design
+- Web Development
+- WordPress Development
+- Web Hosting
+- Domain Registration
+- SEO
+- IT Consulting
+- Software Development
+- Remote and Technical Support
+
+Learn more:
+
+https://www.royaltechbd.com/
+
+---
+
+# What is Royal WordPress Emergency Recovery?
+
+Royal WordPress Emergency Recovery is a small, temporary PHP utility designed for situations where you have legitimate filesystem or FTP access to a WordPress website but cannot access the WordPress administration dashboard.
+
+It loads the existing WordPress installation and provides a controlled method for recovering an administrator account.
+
+The tool does not require installing a WordPress plugin.
+
+---
+
+# Features
+
+- Email-first account lookup
 - Username fallback
-- Password reset for an existing user
+- Existing user password recovery
 - Administrator role assignment
-- Creates a new Administrator if no matching user exists
+- New Administrator account creation
 - Token-protected recovery URL
+- No database editing required
 - No WordPress plugin installation required
-- Attempts to delete itself after execution
-- Designed for temporary emergency recovery
+- Lightweight PHP script
+- Branded Royal Technologies interface
+- Attempts automatic self-deletion after execution
+- No credentials required in the URL except the recovery token
 
-## How It Works
+---
 
-The recovery process follows this order:
+# Recovery Logic
 
-1. Search for a WordPress user by email
-2. If the email is not found, search by username
-3. If the username is not found, create a new Administrator account
+The script follows this exact order:
 
-### Example
-
-Suppose the WordPress installation contains:
-
-| Username | Email |
-|---|---|
-| mehdi | mehdi@example.com |
-| admin2 | admin@example.com |
-
-And the recovery configuration contains:
-
-```php
-$admin_email = 'admin@example.com';
-$admin_username = 'mehdi';
+```text
+Email
+  |
+  |-- User found
+  |      |
+  |      --> Change password
+  |      --> Assign Administrator role
+  |
+  |-- User not found
+         |
+         v
+       Username
+         |
+         |-- User found
+         |      |
+         |      --> Change password
+         |      --> Assign Administrator role
+         |
+         |-- User not found
+                |
+                v
+          Create new Administrator
